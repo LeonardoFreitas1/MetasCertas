@@ -1,6 +1,3 @@
 [submodule "server/Server_Metas"]
 	path = server/Server_Metas
 	url = https://github.com/LeonardoFreitas1/Server_Metas.git
-[submodule "server/server"]
-	path = server/server
-	url = https://github.com/LeonardoFreitas1/Server_Metas.git

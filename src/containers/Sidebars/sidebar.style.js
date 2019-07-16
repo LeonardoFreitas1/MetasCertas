@@ -6,7 +6,7 @@ import WithDirection from '../../settings/withDirection';
 const SidebarWrapper = styled.div`
   .isomorphicSidebar {
     z-index: 1000;
-    background: #808080;
+    background: ${palette('secondary', 0)};
     width: 280px;
     flex: 0 0 280px;
 

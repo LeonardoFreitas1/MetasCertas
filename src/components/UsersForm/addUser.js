@@ -10,15 +10,28 @@ import notification from '../../components/notification';
 import ValidaCPF from '../../helpers/Validacoes/ValidaCPF'
 const FormItem = Form.Item;
 
-
-const validar = new ValidaCPF()
-
  class AddUser extends Component {
-  state = {
+  constructor(props) {
+    super(props);
+
+  this.state = {
     confirmDirty: false,
     autoCompleteResult: [],
+    valid: '',
+    cor: ''
   };
-
+  this.goCPF = this.goCPF.bind(this)
+  }
+  goCPF(event){
+    const input = document.getElementById('cpf')
+    const validar = new ValidaCPF();
+    
+    if(validar.ValidarCPF(event.target.value) === false){
+    this.setState({valid: 'CPF Inválido', cor: 'red'})
+    }else{
+      this.setState({cor:'green', valid:''})
+    }
+  }
   
 
   handleConfirmBlur = e => {
@@ -46,7 +59,6 @@ const validar = new ValidaCPF()
   };
 
   
-
   render(){
    
    
@@ -63,7 +75,8 @@ const validar = new ValidaCPF()
       },
     };
     
-   
+ 
+
     return (
  
            
@@ -120,30 +133,13 @@ const validar = new ValidaCPF()
              </div>
 
             <div className="isoInputWrapper isoLeftRightComponent">
-            <FormItem
-              
-              label="cpf"
-              labelCol={{ span: 100}}
-              style={{paddingLeft: '10px'}}>
-              {getFieldDecorator('cpf', {
-                
-            rules: [
-              {
-                type: 'email',
-                message: 'CPF inválido!',
-              },
-              {
-                required: true,
-                message: 'Por favor digite seu CPF!',
-              },
-            ],
-          })(
-              <Input placeholder="CPF"
-                 id="cpf"
-                
-                />)}
+            
+              <FormItem style={{paddingLeft:'10px'}}>
+             <span style={{padding: '5px'}}>CPF:</span>
+             
+              <Input placeholder="CPF" id="cpf" onChange={this.goCPF} style={{borderColor: this.state.cor}}/>
+              <span style={{color: 'red'}}>{this.state.valid}</span>
               </FormItem>
-
             
               <FormItem
               

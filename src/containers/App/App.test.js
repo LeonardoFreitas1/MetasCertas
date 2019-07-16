@@ -17,3 +17,4 @@ describe('<AppRouter />', () => {
     expect(shallowToJson(wrapper)).toMatchSnapshot();
   });
 });
+ 

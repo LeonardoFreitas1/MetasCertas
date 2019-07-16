@@ -3,11 +3,11 @@ import { palette } from 'styled-theme';
 import { transition, borderRadius, boxShadow } from '../../settings/style-util';
 import WithDirection from '../../settings/withDirection';
 
-const TopbarWrapperRoot = styled.div`
+const TopbarWrapper = styled.div`
   .isomorphicTopbar {
     display: flex;
     justify-content: space-between;
-    background-color: #808080;
+    background-color: #ffffff;
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
     padding: ${props =>
       props['data-rtl'] === 'rtl' ? '0 265px 0 31px' : '0 31px 0 265px'};
@@ -489,4 +489,4 @@ const TopbarWrapperRoot = styled.div`
   }
 `;
 
-export default WithDirection(TopbarWrapperRoot);
+export default WithDirection(TopbarWrapper);

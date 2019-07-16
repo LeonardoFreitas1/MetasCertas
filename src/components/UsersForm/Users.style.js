@@ -5,78 +5,57 @@ const SignUpStyleWrapper = styled.div`
  
 
 span.tag{
- 
-    border: 1px solid #7c7; 
-    border-radius: 7px; 
-    background-color: #efe;     
-    color: #7c7;     
-    padding: 5px;           
-    
+  color:blue;       
+  
 }
 
+
+.celulaEmEdicao {
+  position: center;
+}
+
+.celulaEmEdicao input[type=text]{
+  width:100%;
+  border:0px;
+  background-color:rgba(0,0,0,0);  
+}
+
+
+.disable{
+  color:red;
+}
 .ion-android-delete{
-  background-color: white;
+  background-color: rgba(0,0,0,0);
   color: black;
   border: 2px solid #E73A3A;
-  border-radius: 10px; 
+  border-radius: 15px; 
   border: 2px;
   margin: 10px
   position:relative;
-  padding: 5px
+  padding: 5.5px
 
 }
 
 .ion-android-delete:hover {
-  background-color: #E73A3A; 
+  background-color: red
   color: white;
 }
 .ion-edit{ 
-  background-color: white;
+  background-color: rgba(0,0,0,0);
   color: black;
-  border: 2px solid #E73A3A;
-  border-radius: 10px; 
-  border: 2px;
+  border: 2px solid #E73A3A; 
+  border-radius: 30px;
+  border:2px;
   margin: 10px
   position:relative;
   padding: 5px
-  
+
 }
 .ion-edit:hover {
-  background-color: green; 
-  color: white;
-}
-table {
-  border-collapse: collapse;
-  width: 100%;
+  color: white; 
+  background-color:green
 }
 
-t#table {
-  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
-  border-collapse: collapse;
-  width: 100%;
-}
-
-#table td, #table th {
-  
-  padding: 8px;
-}
-
-#table tr:nth-child(even){background-color: #ddd;}
-
-#table tr:hover {background-color: #a6a6a6;}
-
-#table tr.disable{
-  opacity: 0.5;
-  margin-bottom: -200px;
-}
-
-#table th {
-  padding-top: 12px;
-  padding-bottom: 12px;
-  text-align: left;
-  background-color: #666666;
-  color: white;
-}
 Button {
   position:relative;
   align: right;
