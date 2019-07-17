@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
-
+import UserSyle from './Users.style';
+import styled from 'styled-components';
 import LayoutWrapper from '../../components/utility/layoutWrapper.js';
 import PageHeader from '../../components/utility/pageHeader';
 import { Form } from 'antd';
 import Button from '../../components/uielements/button';
 import { Input } from 'antd';
-import notification from '../../components/notification';
-
+import MaskedInput from 'react-maskedinput'
 import ValidaCPF from '../../helpers/Validacoes/ValidaCPF'
+import Conversores from '../../helpers/Conversores';
 const FormItem = Form.Item;
 
  class AddUser extends Component {
@@ -18,18 +19,24 @@ const FormItem = Form.Item;
     confirmDirty: false,
     autoCompleteResult: [],
     valid: '',
-    cor: ''
+    cor: 'rgba(0, 0, 0, 0.20)'
   };
   this.goCPF = this.goCPF.bind(this)
   }
+
+  
   goCPF(event){
-    const input = document.getElementById('cpf')
+    const conversores = new Conversores()
+    let converte = event.target.value
+    converte = converte.toString()
+    let atualizado = conversores.converteCPF(converte)
+
     const validar = new ValidaCPF();
     
-    if(validar.ValidarCPF(event.target.value) === false){
+    if(validar.ValidarCPF(atualizado) === false){
     this.setState({valid: 'CPF Inválido', cor: 'red'})
     }else{
-      this.setState({cor:'green', valid:''})
+      this.setState({cor:'rgba(0, 0, 0, 0.20)', valid:''})
     }
   }
   
@@ -58,10 +65,9 @@ const FormItem = Form.Item;
     callback();
   };
 
-  
   render(){
    
-   
+    
     const { getFieldDecorator } = this.props.form;
 
     const formItemLayout = {
@@ -74,13 +80,54 @@ const FormItem = Form.Item;
         sm: { span: 16 },
       },
     };
-    
- 
 
+    
+  
+    const maskStyle = {
+      
+  margin:  '0',
+  padding: '0',
+  position: 'relative',
+  display: 'inline-block',
+  width: '100%',
+  height: '32px',
+  padding: '4px 11px',
+  color: 'rgba(0, 0, 0, 0.65)',
+  fontSize: '14px',
+  lineHeight: '1.5',
+  backgroundColor: '#fff',
+  backgroundImage: 'none',
+  border: '1px solid #d9d9d9',
+  borderRadius: '4px',
+  borderColor: this.state.cor,
+  boxSizing: 'border-box',
+  transition: 'all 0.3s',
+  
+    }
+
+const style = {
+  margin:  '0',
+  padding: '0',
+  position: 'relative',
+  display: 'inline-block',
+  width: '100%',
+  height: '32px',
+  padding: '4px 11px',
+  color: 'rgba(0, 0, 0, 0.65)',
+  fontSize: '14px',
+  lineHeight: '1.5',
+  backgroundColor: '#fff',
+  backgroundImage: 'none',
+  border: '1px solid #d9d9d9',
+  borderRadius: '4px',
+  transition: 'all 0.3s',
+  paddingLeft: '10px'
+}
+     
     return (
  
-           
-
+        
+<UserSyle>
       <Form >
         
       <div className="isoInputWrapper isoLeftRightComponent">
@@ -104,13 +151,13 @@ const FormItem = Form.Item;
 
       </FormItem>
      
+      
+              </div>                        
+              <div>               
+              <FormItem                                              
 
-              </div>
-              <div>
-              <FormItem
-              
-              label="Email"
-              labelCol={{ span: 100}}
+              label="Email"                                                                                                                                                                                                                           
+              labelCol={{ span: 100}}                                       
               style={{paddingLeft: '10px'}}>
               {getFieldDecorator('email', {
             rules: [
@@ -135,24 +182,18 @@ const FormItem = Form.Item;
             <div className="isoInputWrapper isoLeftRightComponent">
             
               <FormItem style={{paddingLeft:'10px'}}>
-             <span style={{padding: '5px'}}>CPF:</span>
-             
-              <Input placeholder="CPF" id="cpf" onChange={this.goCPF} style={{borderColor: this.state.cor}}/>
+              <span style={{padding: '5px'}}>CPF:</span>
+              <MaskedInput style={maskStyle}  placeholder="CPF" id="cpf" onChange={this.goCPF} mask="111.111.111-11"/>
               <span style={{color: 'red'}}>{this.state.valid}</span>
+
               </FormItem>
             
-              <FormItem
-              
-              label="Whatsapp"
-              labelCol={{ span: 100}}
-              style={{paddingLeft: '10px'}}>
-              <Input placeholder="Whatsapp" 
-              id="whatsapp" 
-             
-             />
-
-              </FormItem>
-
+              <FormItem style={{paddingLeft:'10px'}}>
+              <span style={{padding: '5px'}}>Whatsapp:</span>
+              <MaskedInput placeholder="Whatsapp" 
+              id="whatsapp" mask="(11) 11111-1111"
+              style={style}/>
+                </FormItem>
               </div> 
               <div>
               <FormItem
@@ -190,18 +231,20 @@ const FormItem = Form.Item;
             ],
           })(<Input.Password onBlur={this.handleConfirmBlur} />)}
               </FormItem>
-              
+           
+             
               </div>
+             
               
               </Form>
               
-    
+              </UserSyle>
       
     );
   }
 }
 
-const WrappedFormWIthSubmissionButton = Form.create()(AddUser )
+const WrappedFormWIthSubmissionButton = Form.create()(AddUser)
 
 export default 
 

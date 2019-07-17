@@ -3,13 +3,13 @@ import { Modal, ModalHeader, ModalBody, ModalFooter, Container, Table } from 're
 import { Input, Checkbox, Button, Tag } from 'antd';
 import notification from '../../components/notification';
 import { Form } from 'antd';
-import SignUpStyleWrapper from './Users.style';
+import UserSyle from './Users.style';
 import ValidaCPF from '../../helpers/Validacoes/ValidaCPF'
 import WrappedFormWIthSubmissionButton from './addUser';
 import { InputGroup } from '../../components/uielements/input';
 import $ from 'jquery';
 import Select, { SelectOption } from '../../components/uielements/select';
-
+import Conversores from '../../helpers/Conversores/index'
 const FormItem = Form.Item;
 
 
@@ -20,16 +20,17 @@ constructor(){
     super()
     this.state = {
         open: false,
-        disabled: false,
+        disabledAD: false,
+        disabledRT: false,
         edit: false,
-        Invalido: 'aaaaaaaaaaaaaaaaaaa'
     };
-    
+    this.MudaTag = this.MudaTag.bind(this)
 }
 
 
 Desabilitar(id){
   console.log(id)
+
   var userInfo = {
     method: 'POST',
     mode:'cors',
@@ -64,7 +65,7 @@ componentDidMount(){
           
           
         let data = info.user;
-       
+       console.log(data[1])
         const list = document.getElementById("table")
         
             
@@ -87,32 +88,40 @@ componentDidMount(){
 
             const nome = document.createElement('td')
             nome.setAttribute('id', data[i].id_usuario)
+            nome.setAttribute('headers', 'nome')
             nome.innerHTML = data[i].nome;
             nome.addEventListener('dblclick', () => this.editLine(nome))
             tr.appendChild(nome)
-            
 
-            const check = document.createElement('span');
+            
+            const check = document.createElement('td');
 
             check.setAttribute('class', 'tag')
+            check.setAttribute('id', data[i].id_usuario)
             check.innerHTML = data[i].usuarios_tipos
-            check.addEventListener('dblclick', () => this.setState({ editTag: true }))
+            check.addEventListener('dblclick', () => this.setState({ editTag: true, idTag: check.id }))
             tr.appendChild(check)
 
-            const whatsapp = document.createElement('td')
-            whatsapp.innerHTML = data[i].whatsapp;
-            whatsapp.addEventListener('dblclick', () => this.editLine(whatsapp))
-            tr.appendChild(whatsapp)
-
+           
             const cpf = document.createElement('td')
             cpf.innerHTML =  data[i].cpf_cnpj;
-            
+            cpf.setAttribute('id', data[i].id_usuario)
+            cpf.setAttribute('headers', 'cpf_cnpj')
             cpf.addEventListener('dblclick', () => this.editLine(cpf))
             tr.appendChild(cpf)
             
+            const whatsapp = document.createElement('td')
+            whatsapp.innerHTML = data[i].whatsapp;
+            whatsapp.setAttribute('headers', 'whatsapp')
+            whatsapp.setAttribute('id', data[i].id_usuario)
+            whatsapp.addEventListener('dblclick', () => this.editLine(whatsapp))
+            tr.appendChild(whatsapp)
+
            
             const email = document.createElement('td')
             email.innerHTML = data[i].email;
+            email.setAttribute('id', data[i].id_usuario)
+            email.setAttribute('headers', 'email')
             email.addEventListener('dblclick', () => this.editLine(email))
             tr.appendChild(email) 
             
@@ -120,7 +129,7 @@ componentDidMount(){
             
             const edit = document.createElement('Button');
             edit.setAttribute('class', 'ion-edit');
-            edit.setAttribute('id', data[i].id);
+            edit.setAttribute('id', data[i].id_usuario);
             edit.addEventListener('click', () => this.setState({ edit: true }))
             
             tr.appendChild(edit)
@@ -148,61 +157,120 @@ componentDidMount(){
 }
 
 editLine(tag){
-  
-        var conteudoOriginal = $(tag).text();
-        const id = tag.id
-        $(tag).addClass("celulaEmEdicao");
-        $(tag).html("<input type='text' value='" + conteudoOriginal + "' />");
-        $(tag).children().first().focus();
- 
-        $(tag).children().first().keypress(function (e) {
-            if (e.which == 13) {
-                var novoConteudo = $(tag).val();
-                $(tag).parent().text(novoConteudo);
-                const conteudo = {
-                  method: 'POST',
-                  mode:'cors',
-                  body: JSON.stringify({
-                    id: id,
-                    novoConteudo: novoConteudo
-                  })
-                }
-                fetch('http://localhost:5000/atualiza', conteudo).then( foi =>{
-                   if(foi.ok){
-                  
-                        window.location.reload()
-       
-                  }
-                      }).catch(err => {
-                     console.log(err)
-                   })
-  
-             
-            }
-        });
+  const envia = new UserList()
+  var conteudoOriginal = $(tag).text();
 
-        
+  $(tag).addClass("celulaEmEdicao");
+  $(tag).html("<input type='text' value='" + conteudoOriginal + "' />");
+  $(tag).children().first().focus();
+  
+  $(tag).children().first().keypress(function (e) {
+      if (e.which == 13) {
+          var novoConteudo = $(this).val();
+          $(this).attr('id', tag.id)
+          $(this).parent().text(novoConteudo);
+          $(this).parent().removeClass("celulaEmEdicao");
+          $(this).addClass(tag.headers)
+          envia.atualiza(this)
+      }
+  });
+   
+$(this).children().first().blur(function(){
+  $(this).parent().text(conteudoOriginal);
+  $(this).parent().removeClass("celulaEmEdicao");
+});
+  
 }
 
+atualiza(tag){
+  const novoConteudo = tag.value;
+  const id = tag.id;
+  const conteudo = $(tag).attr('class')
+  
+  const info = {
+    method: 'POST',
+    mode:'cors',
+    body: JSON.stringify({ 
+      id: id,
+      novoConteudo: novoConteudo,
+      conteudo: conteudo
+     }),
+     headers: new Headers({
+      'Content-type':'application/json'
+    })
+  }
+  fetch('http://localhost:5000/atualiza', info).then( foi =>{
+     if(foi.ok){
+    
+      notification('success','Usuário atualizado!')
+
+    }
+        }).catch(err => {
+       console.log(err)
+     })
+}
+
+MudaTag(){
+  const MudaAdmin = document.getElementById('MudaAdmin')
+  const MudaRoot = document.getElementById('MudaRoot')
+  const Geral = document.getElementById('Geral')
+
+  const id = this.state.idTag
+  var novoConteudo = null;
+  if(MudaAdmin.checked){
+novoConteudo = 'Admin'
+  }else if(MudaRoot.checked){
+novoConteudo = 'Root'
+  }else if(Geral.checked){
+    novoConteudo = 'Geral'
+  }
+
+  const info = {
+    method: 'POST',
+    mode:'cors',
+    body: JSON.stringify({ 
+      id: id,
+      novoConteudo: novoConteudo,
+      conteudo: 'usuarios_tipos'
+     }),
+     headers: new Headers({
+      'Content-type':'application/json'
+    })
+  }
+  fetch('http://localhost:5000/atualiza', info).then( foi =>{
+     if(foi.ok){
+    
+      notification('success','Usuário atualizado!')
+      window.location.reload()
+    }
+        }).catch(err => {
+       console.log(err)
+     })
+}
 
 envia(){
   
-
+  const conversores = new Conversores()
   const nome = document.getElementById('nome').value
   const cpf = document.getElementById('cpf').value
   const password = document.getElementById('password').value
   const email = document.getElementById('email').value
-  const whatsapp = document.getElementById('whatsapp').value
+  let whatsapp = document.getElementById('whatsapp').value
   const usuario = document.getElementById('usuario').value
   const TGadmin = document.getElementById('TGadmin');
   const TGroot = document.getElementById('TGroot');
   let marcado = null
-
+    whatsapp = conversores.converteWhatsapp(whatsapp)
+    console.log(whatsapp)
     if(TGadmin.checked){
       marcado = 'Admin'
-    }else{
-      marcado = 'Root'
+
     }
+     if(TGroot.checked){
+      marcado = 'Root'
+     
+    }
+
     const requestInfo = {
       
       method: 'POST',
@@ -232,7 +300,7 @@ envia(){
        
       }
     }).catch(err =>{
-      return console.log(err)
+      return notification('error', 'Não foi possível concluir o cadastro')
     })
     
   }
@@ -254,15 +322,19 @@ envia(){
     const envia = new UserList()
     if(cpf === '' || nome === ''|| password === ''|| email === '' || whatsapp === ''){
       return notification('warning', 'Todos os campos devem estar preenchidos!')
+    }else{
+      envia.envia()
     }
+
   }
   
     render(){
-
+      
       const Option = SelectOption;
     
+      
         return ( 
-            <SignUpStyleWrapper>
+            <UserSyle>
 <div>
 <Table striped bordered hover variant="dark">
   <thead>
@@ -296,9 +368,9 @@ envia(){
            <ModalBody > 
            <WrappedFormWIthSubmissionButton/>
            <Form >
- <Checkbox id="TGadmin">Admin</Checkbox>
-   <Checkbox id="TGroot">Root</Checkbox>
-   <Checkbox id="TGads">ADS</Checkbox>
+ <Checkbox id="TGadmin" disabled={this.state.disabledAD}>Admin</Checkbox>
+   <Checkbox id="TGroot" disabled={this.state.disabledRT}>Root</Checkbox>
+   
             </Form>
            </ModalBody>
            <ModalFooter > 
@@ -314,13 +386,13 @@ envia(){
           <Modal isOpen={this.state.editTag} scrollable={true}>
           <ModalHeader > Editar Tag </ModalHeader>
           <ModalBody > 
-            <Button>Admin</Button>
-            <Button>Root</Button>
-          
+            <Checkbox id='MudaAdmin' classname='usuarios_tipos'>Admin</Checkbox>
+            <Checkbox id='MudaRoot' classname='usuarios_tipos'>Root</Checkbox>
+            <Checkbox id='Geral' classname='usuarios_tipos'>Geral</Checkbox>
 
           </ModalBody>
           <ModalFooter > 
-               <Button type='primary' onClick={console.log('aaa')}> Adicionar </Button>
+               <Button type='primary' onClick={this.MudaTag}> Adicionar </Button>
                
                <Button onClick={() => this.setState({ editTag: false })}> Cancelar </Button>
            </ModalFooter>
@@ -330,8 +402,9 @@ envia(){
 
 
        <Button  onClick={() => this.setState({ open: true })}>Adicionar Usuário</Button>
-      </SignUpStyleWrapper>
-      
+
+      </UserSyle>
+    
         
         )
                     

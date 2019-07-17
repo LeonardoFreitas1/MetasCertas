@@ -1,11 +1,12 @@
 import styled from 'styled-components';
 import WithDirection from '../../settings/withDirection';
 
-const SignUpStyleWrapper = styled.div`
+const UserStyle = styled.div`
  
 
-span.tag{
-  color:blue;       
+td.tag{
+  color:blue;
+  position: center;
   
 }
 
@@ -62,7 +63,7 @@ Button {
   margin: 30px;
   
 }
-
+}
 `;
 
-export default WithDirection(SignUpStyleWrapper);
+export default WithDirection(UserStyle);
