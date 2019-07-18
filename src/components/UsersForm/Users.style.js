@@ -34,6 +34,7 @@ td.tag{
   margin: 10px
   position:relative;
   padding: 5.5px
+  zIndex: 5;
 
 }
 
@@ -57,11 +58,40 @@ td.tag{
   background-color:green
 }
 
-Button {
-  position:relative;
-  align: right;
-  margin: 30px;
-  
+Button{
+  position:'fixed'
+
+
+}
+
+.botao{
+  position:absolute;
+   right: 70px;
+   top: 630px
+   bottom:10px;
+
+
+}
+button.round{
+  color: #fff;
+  position: fixed
+  border-color:  #fff;
+  background-color:  #1B2358;
+  display:block;
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  border: 1px solid #f1f1;
+  zIndex: 1;
+  text-shadow: 0 0 0.2em #87F;
+ 
+}
+
+
+button.round:hover{
+  color: white;
+  background-color: green;
+  box-shadow: 1px 1px black;
 }
 }
 `;

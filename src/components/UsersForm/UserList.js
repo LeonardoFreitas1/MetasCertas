@@ -25,6 +25,7 @@ constructor(){
         edit: false,
     };
     this.MudaTag = this.MudaTag.bind(this)
+    this.canSubmit = this.canSubmit.bind(this)
 }
 
 
@@ -244,7 +245,7 @@ novoConteudo = 'Root'
       window.location.reload()
     }
         }).catch(err => {
-       console.log(err)
+       notification('error', 'Não foi possível cadastrar usuário!')
      })
 }
 
@@ -259,6 +260,9 @@ envia(){
   const usuario = document.getElementById('usuario').value
   const TGadmin = document.getElementById('TGadmin');
   const TGroot = document.getElementById('TGroot');
+  const td = document.createElement('td')
+  const tr = document.createElement('tr')
+  const list = document.getElementById("table")
   let marcado = null
     whatsapp = conversores.converteWhatsapp(whatsapp)
     console.log(whatsapp)
@@ -290,17 +294,20 @@ envia(){
       })
     }
   
-    fetch('http://localhost:5000/addAdmin', requestInfo)
+    fetch('http://localhost:5000/addUser', requestInfo)
     
     .then(response => {
       if(response.ok){
         response.text()
-        
+        td.innerHTML = nome
+        tr.appendChild(td)
+        list.appendChild(tr)
         return notification('success', 'Usuário Cadastrado!')
        
       }
     }).catch(err =>{
-      return notification('error', 'Não foi possível concluir o cadastro')
+      return console.log(err)
+      
     })
     
   }
@@ -323,6 +330,7 @@ envia(){
     if(cpf === '' || nome === ''|| password === ''|| email === '' || whatsapp === ''){
       return notification('warning', 'Todos os campos devem estar preenchidos!')
     }else{
+      this.setState({ open: false })
       envia.envia()
     }
 
@@ -335,8 +343,10 @@ envia(){
       
         return ( 
             <UserSyle>
+
 <div>
-<Table striped bordered hover variant="dark">
+
+<Table striped bordered hover variant="dark" style={{zIndex:'2'}}>
   <thead>
     <tr>
       <th>#</th>
@@ -351,10 +361,10 @@ envia(){
   <tbody id='table'>
 
   </tbody>
+  
 </Table>
-      
+         
       </div>
-     <div id='oi'></div>
 
       <Container> 
 
@@ -398,10 +408,12 @@ envia(){
            </ModalFooter>
           </Modal>
           </Container>
+          <div className='botao'>
+          <button className='round' onClick={() => this.setState({ open: true })}>+</button>
+          </div>
 
 
-
-       <Button  onClick={() => this.setState({ open: true })}>Adicionar Usuário</Button>
+          
 
       </UserSyle>
     

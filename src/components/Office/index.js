@@ -1,90 +1,98 @@
 import React, { Component } from 'react';
-import SignUpStyleWrapper from './Users.style';
+import CargosStyle from './Users.style';
+import PageHeader from '../../components/utility/pageHeader';
+import Box from '../../components/utility/box';
+import ContentHolder from '../../components/utility/contentHolder';
+import EditUser from './Edit.user';
+import { Input, Button, notification } from 'antd';
+import userpic from '../../image/user2.png';
+import box from '../../components/utility/box';
 
 export default class Office extends Component {
+    constructor(){
+        super()
+        this.state = {
+            edit: [],
+            id: [],
+            nome: [],
+            whatsapp: [],
 
-    componentDidMount(){
-        fetch('http://localhost:5000/users')
-        .then(response => response.json())
-        .then( async info => {
-
-          var a = document.getElementsByClassName("cha")
-          var admin = false
-          if(a.checked){
-           return admin = true
-            
-            }
-          
-        let data = info.user;
-        const list = document.getElementById("table")
-        
-            
-        for(var i = 0; i <= data.length; i++){
-            const tr = document.createElement('tr')
-
-            if(data[i].ativo == true){
-              tr.setAttribute('class', 'disable')
-
-
-               }
-            
-            list.appendChild(tr);
-            
-            const nome = document.createElement('td')
-            
-            nome.innerHTML = data[i].nome;
-            tr.appendChild(nome)
-         
-        
-        
-        }
-        
-        
-        })
-        .catch(err => {
-            console.log(err)
-        })
-
-        fetch('http://localhost:5000/usuarios_tipos')
-        .then(resp => resp.json())
-        .then(info => {
-
-               
-        let data = info.user;
-        const list = document.getElementById("table")
-        
-
-        for(var i = 0; i < data.length; i++){
-            const tr = document.createElement('tr')
-            
-            list.appendChild(tr);
-
-            const cargo = document.createElement('td')
-            
-            cargo.innerHTML = data[i].tipo;
-            tr.appendChild(cargo)
-
-        
-        
-        }
-        
-
-        })
+            animation:''
+        };  
+        this.createBox = this.createBox.bind(this)
     }
     
+        createBox(nome, id){
+            
+            return (
+            <Box title={nome}>
+
+         <button id={id} style={{transform: this.state.animation}} onClick={() => this.form(id)} >></button>
+
+                 {this.state.id.map(() => {   
+                    
+                      return (
+                        <div key={nome}>
+                         <img src={userpic}/>
+                           <span>Nome: {nome}</span>
+
+                        </div>
+                      )
+                 })}
+            </Box>
+            )
+        }
+        
+        
+      componentWillMount(){
+            fetch('http://localhost:5000/users')
+            .then(resp => resp.json())
+            .then(info => {
+                
+                const dados = info.user
+                
+                for(var i = 0; i <= dados.length; i++){
+                    this.setState({nome: [...this.state.nome, dados[i].nome], whatsapp: [...this.state.whatsapp, dados[i].whatsapp], id: [...this.state.id, dados.id_usuario]})
+                    
+                
+                }
+            }).catch(err => console.log(err))
+
+        }
+    check(id){
+       const botao= document.getElementById('id')
+        if(id == botao){
+            this.form()
+        }
+    }
+
+    form(id){
+        if(this.state.edit.length == 0){
+        this.setState({edit: [...this.state.edit, ""], animation: 'rotate(90deg)'})
+        }else{
+            this.setState({edit: [], animation:''})
+        }
+    }
+
+
+  
     render(){
+        
         return (
-            <SignUpStyleWrapper>
+            <CargosStyle>
+                <PageHeader>
+                    <span>Cargos</span>
+                 </PageHeader>
+            
+            <Box title={<span >Editar Usuarios</span>} >
 
-            <table id="table">
-              <tr>
-                <th >Nome</th>
-                <th>Cargo</th>
+            <ContentHolder id='principal'>
 
-
-              </tr>
-            </table>
-            </SignUpStyleWrapper>
+                 {this.state.nome.map(this.createBox)}
+            </ContentHolder>
+            
+            </Box>
+            </CargosStyle>
         )
     }
 }

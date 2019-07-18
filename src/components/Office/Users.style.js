@@ -1,89 +1,42 @@
 import styled from 'styled-components';
 import WithDirection from '../../settings/withDirection';
 
-const SignUpStyleWrapper = styled.div`
+const CargosStyle = styled.div`
+padding: 40px 20px;
+display: flex;
+flex-flow: row wrap;
+overflow: hidden;
+
+@media only screen and (max-width: 767px) {
+  padding: 50px 20px;
+}
+
+@media (max-width: 580px) {
+  padding: 15px;
+}
+
+img{
+  width: 50px;
+  height: 50px;
+  
+}
+
+button{
+  color: black; 
+  border-color: #668cff;
+  background-color: rgba(0,0,0,0);
+  height: 25px;
+  width: 25px;
+  border-radius: 50%;
+  border: 1px solid #f1f1;
+  zIndex: 1;
+
  
-
-span.tag{
- 
-    border: 1px solid #7c7; 
-    border-radius: 7px; 
-    background-color: #efe;     
-    color: #7c7;      
-    padding: 5px;           
-    
 }
-
-.ion-android-delete{
-  background-color: white;
-  color: black;
-  border: 2px solid #E73A3A;
-  border-radius: 10px; 
-  border: 2px;
-  margin: 10px
-  position:relative;
-  padding: 5px
-
-}
-
-.ion-android-delete:hover {
-  background-color: #E73A3A; 
-  color: white;
-}
-.ion-edit{ 
-  background-color: white;
-  color: black;
-  border: 2px solid #E73A3A;
-  border-radius: 10px; 
-  border: 2px;
-  margin: 10px
-  position:relative;
-  padding: 5px
-  
-}
-.ion-edit:hover {
-  background-color: green; 
-  color: white;
-}
-table {
-  border-collapse: collapse;
-  width: 100%;
-}
-
-t#table {
-  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
-  border-collapse: collapse;
-  width: 100%;
-}
-
-#table td, #table th {
-  
-  padding: 8px;
-}
-
-#table tr:nth-child(even){background-color: #ddd;}
-
-#table tr:hover {background-color: #a6a6a6;}
-
-#table tr.disable{
-  opacity: 0.5;
-  margin-bottom: -200px;
-}
-
-#table th {
-  padding-top: 12px;
-  padding-bottom: 12px;
-  text-align: left;
-  background-color: #666666;
-  color: white;
-}
-Button {
-  position:relative;
-  align: right;
-  margin: 30px;
-  
+button:hover{
+  border-color: #668cff
 }
 
 `;
 
-export default WithDirection(SignUpStyleWrapper);
+export default WithDirection(CargosStyle);
