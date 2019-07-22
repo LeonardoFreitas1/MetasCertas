@@ -22,9 +22,6 @@ export class App extends Component {
     const currentAppLocale = AppLocale[locale];
     const appHeight = window.innerHeight;
     return (
-
-      
-          
             <AppHolder>
               <Layout style={{ height: appHeight }}>
                
@@ -69,7 +66,7 @@ export class App extends Component {
   }
 }
 
- export default  connect(
+ export default connect(
   state => ({
     auth: state.Auth,
     locale: state.LanguageSwitcher.language.locale,

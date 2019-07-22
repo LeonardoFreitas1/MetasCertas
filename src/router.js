@@ -88,7 +88,7 @@ const PublicRoutes = ({ history}) => {
         path="/newCompany"
         component={asyncComponent(() => import('./containers/Page/newCompany'))}
         />
-        <Route
+        <RestrictedRoute
           path="/dashboard"
           component={App}
          

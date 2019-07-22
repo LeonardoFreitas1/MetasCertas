@@ -2,12 +2,12 @@ import styled from 'styled-components';
 import { palette } from 'styled-theme';
 
 const BoxWrapper = styled.div`
-  width: 100%;
-  height: 100%;
-  padding: 20px;
-  background-color: #ffffff;
-  border: 1px solid ${palette('border', 0)};
-  margin: 0 0 30px;
+width: 100%;
+height: 100%;
+padding: 20px;
+background-color: #ffffff;
+border: 1px solid ${palette('border', 0)};
+margin: 0 0 30px;
 
   &:last-child {
     margin-bottom: 0;
@@ -22,6 +22,17 @@ const BoxWrapper = styled.div`
     width: calc(50% - 34px);
     @media (max-width: 767px) {
       width: 100%;
+    }
+
+    .cargos isoBoxWrapper sc-chPdSV lpfKIa {
+     width: 30%;
+     height: 30%;
+     padding: 20px;
+     background-color: #ffffff;
+     border: 1px solid ${palette('border', 0)};
+     margin: 0 0 30px;
+     float: left;
+
     }
   }
 `;

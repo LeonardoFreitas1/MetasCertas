@@ -17,31 +17,33 @@ this.state = {
 this.submit = this.submit.bind(this);
 }
 
-  submit(event){ 
+submit(event){ 
 const cpf_cnpj = document.getElementById('cpf_cnpj').value
-const password = document.getElementById('password').value
+const senha = document.getElementById('password').value
 
 const requestInfo = {
       
       method: 'POST',
       body: JSON.stringify({ 
         cpf_cnpj: cpf_cnpj,
-        senha: password,
+        senha: senha,
        }),
        headers: new Headers({
         'Content-type':'application/json'
       })
     }
     
-    fetch('/login', requestInfo)
+    fetch('http://localhost:5000/login', requestInfo)
     
     .then(resp => {
       if (resp.ok) {
         
-        
+        console.log(resp.text())
        return resp.text()
+      
         
     }else{
+      console.log('erro!')
       return notification('error', 'Usuário ou senha inválidos!')
     }
         

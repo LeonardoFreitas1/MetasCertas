@@ -30,7 +30,6 @@ constructor(){
 
 
 Desabilitar(id){
-  console.log(id)
 
   var userInfo = {
     method: 'POST',
@@ -75,7 +74,6 @@ componentDidMount(){
 
             if(data[i].ativo == true){
               tr.setAttribute('class', 'disable')
-              
               
 
             }

@@ -35,8 +35,21 @@ button{
 }
 button:hover{
   border-color: #668cff
+
+
 }
 
+.cargos {
+     position:relative;
+     width: 30%;
+     height: 30%;
+     background-color: #ffffff;
+     margin: 0 0 30px;
+     border-radius: 3%
+     overflow: auto;
+     float: left;
+     word-wrap: break-word;
+    }
 `;
 
 export default WithDirection(CargosStyle);

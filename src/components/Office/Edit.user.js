@@ -20,8 +20,7 @@ class EditUser extends Component{
         
         return(
             <CargosStyle>
-            <img src={userpic}/>
-            <span>Nome: {console.log(this.state.nome[1])}</span>
+           
             </CargosStyle>
         )
     }

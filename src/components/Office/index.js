@@ -6,44 +6,42 @@ import ContentHolder from '../../components/utility/contentHolder';
 import EditUser from './Edit.user';
 import { Input, Button, notification } from 'antd';
 import userpic from '../../image/user2.png';
-import box from '../../components/utility/box';
-
+import { retry } from '@redux-saga/core/effects';
+import $ from 'jquery';
+import { func } from 'prop-types';
 export default class Office extends Component {
+
     constructor(){
         super()
         this.state = {
-            edit: [],
             id: [],
             nome: [],
             whatsapp: [],
-
-            animation:''
+            conta: 0,
+            cargo: [],
         };  
         this.createBox = this.createBox.bind(this)
     }
     
+    
+     
         createBox(nome, id){
-            
+
+            for(var i = 0; i < this.state.whatsapp.length; i++){
+            let whatsapp = this.state.whatsapp[i]
             return (
-            <Box title={nome}>
-
-         <button id={id} style={{transform: this.state.animation}} onClick={() => this.form(id)} >></button>
-
-                 {this.state.id.map(() => {   
-                    
-                      return (
-                        <div key={nome}>
-                         <img src={userpic}/>
-                           <span>Nome: {nome}</span>
-
-                        </div>
-                      )
-                 })}
+            <Box title={nome} className="cargos">
+                
+         <button id={id}  onClick={() =>  this.renderiza(id, nome, whatsapp)} >></button>
+                 <div id={`div${id}`}></div>
+                 
             </Box>
             )
+            }
+
         }
         
-        
+       
       componentWillMount(){
             fetch('http://localhost:5000/users')
             .then(resp => resp.json())
@@ -58,37 +56,63 @@ export default class Office extends Component {
                 }
             }).catch(err => console.log(err))
 
+
         }
-    check(id){
-       const botao= document.getElementById('id')
-        if(id == botao){
-            this.form()
-        }
+
+
+
+        renderiza(id, nome, whatsapp){
+            
+            const button = document.getElementById(id);
+           
+            const div = document.getElementById(`div${id}`);       
+            
+               
+               
+            if($(div).text().length == 0){
+
+                this.setState({ conta: 1 })
+                $(div).append(() => {
+                button.setAttribute('style', 'transform: rotate(90deg)')
+                       
+                return `
+                    <image src=${userpic}/>
+                    <br/>
+                    <span>Nome: ${nome}</span>
+                    <br/>
+                    <span>Whatsapp: ${whatsapp}</span>
+                    <br/>
+                   
+                    `
+                
+                })
+            }else {
+
+                this.setState({ conta: 0 })
+                button.setAttribute('style', 'transform: rotate(0deg)')
+                $(div).empty()
+            }
+
     }
 
-    form(id){
-        if(this.state.edit.length == 0){
-        this.setState({edit: [...this.state.edit, ""], animation: 'rotate(90deg)'})
-        }else{
-            this.setState({edit: [], animation:''})
-        }
-    }
+
 
 
   
     render(){
-        
+    
         return (
             <CargosStyle>
                 <PageHeader>
                     <span>Cargos</span>
                  </PageHeader>
             
-            <Box title={<span >Editar Usuarios</span>} >
+            <Box title='Editar Usuarios'>
 
             <ContentHolder id='principal'>
 
                  {this.state.nome.map(this.createBox)}
+                 
             </ContentHolder>
             
             </Box>
