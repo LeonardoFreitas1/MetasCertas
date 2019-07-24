@@ -83,7 +83,7 @@ const FormItem = Form.Item;
 
     
   
-    const maskStyle = {
+  const maskStyle = {
       
   margin:  '0',
   padding: '0',

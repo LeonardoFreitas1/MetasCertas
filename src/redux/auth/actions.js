@@ -9,8 +9,10 @@ const actions = {
     type: actions.LOGIN_REQUEST,
     payload: { token },
   }),
-  logout: () => ({
-    type: actions.LOGOUT,
-  }),
+  logout: () => {
+    localStorage.removeItem('token')
+   
+
+  },
 };
 export default actions;

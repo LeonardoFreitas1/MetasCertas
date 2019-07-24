@@ -5,9 +5,7 @@ import { connect } from 'react-redux';
 import App from './containers/App/App';
 import asyncComponent from './helpers/AsyncFunc';
 import Auth0 from './helpers/auth0';
-import {isAutenticade} from './containers/Page/signin';
-
-
+import { isAutenticade } from './containers/Page/signin';
 const RestrictedRoute = ({ component: Component, ...rest }) => (
   <Route
     {...rest} 
