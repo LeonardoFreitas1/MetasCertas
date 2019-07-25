@@ -3,12 +3,9 @@ import CargosStyle from './Users.style';
 import PageHeader from '../../components/utility/pageHeader';
 import Box from '../../components/utility/box';
 import ContentHolder from '../../components/utility/contentHolder';
-import EditUser from './Edit.user';
-import { Input, Button, notification } from 'antd';
 import userpic from '../../image/user2.png';
-import { retry } from '@redux-saga/core/effects';
 import $ from 'jquery';
-import { func } from 'prop-types';
+
 export default class Office extends Component {
 
     constructor(){
@@ -30,7 +27,7 @@ export default class Office extends Component {
             for(var i = 0; i < this.state.whatsapp.length; i++){
             let whatsapp = this.state.whatsapp[i]
             return (
-            <Box title={nome} className="cargos">
+            <Box title={nome} className="cargos" style={{margin: '10px'}}>
                 
          <button id={id}  onClick={() =>  this.renderiza(id, nome, whatsapp)} >></button>
                  <div id={`div${id}`}></div>
@@ -69,7 +66,7 @@ export default class Office extends Component {
             
                
                
-            if($(div).text().length == 0){
+            if($(div).text().length === 0){
 
                 this.setState({ conta: 1 })
                 $(div).append(() => {
@@ -82,7 +79,7 @@ export default class Office extends Component {
                     <br/>
                     <span>Whatsapp: ${whatsapp}</span>
                     <br/>
-                   
+                    <span>Cargo: Programador</span>
                     `
                 
                 })

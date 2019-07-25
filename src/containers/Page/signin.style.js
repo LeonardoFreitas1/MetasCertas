@@ -200,6 +200,7 @@ const SignInStyleWrapper = styled.div`
       }
     }
   }
+  
 `;
 
 export default WithDirection(SignInStyleWrapper);

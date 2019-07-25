@@ -1,16 +1,12 @@
 import React, { Component } from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter, Container, Table } from 'reactstrap'
-import { Input, Checkbox, Button, Tag } from 'antd';
+import { Checkbox, Button } from 'antd';
 import notification from '../../components/notification';
 import { Form } from 'antd';
 import UserSyle from './Users.style';
-import ValidaCPF from '../../helpers/Validacoes/ValidaCPF'
 import WrappedFormWIthSubmissionButton from './addUser';
-import { InputGroup } from '../../components/uielements/input';
 import $ from 'jquery';
-import Select, { SelectOption } from '../../components/uielements/select';
 import Conversores from '../../helpers/Conversores/index'
-const FormItem = Form.Item;
 
 
 
@@ -72,7 +68,7 @@ componentDidMount(){
         for(var i = 0; i <= data.length; i++){
             const tr = document.createElement('tr')
 
-            if(data[i].ativo == true){
+            if(data[i].ativo === true){
               tr.setAttribute('class', 'disable')
               
 
@@ -164,7 +160,7 @@ editLine(tag){
   $(tag).children().first().focus();
   
   $(tag).children().first().keypress(function (e) {
-      if (e.which == 13) {
+      if (e.which === 13) {
           var novoConteudo = $(this).val();
           $(this).attr('id', tag.id)
           $(this).parent().text(novoConteudo);
@@ -323,7 +319,7 @@ envia(){
 
 
 
-    const validar = new ValidaCPF();
+    
     const envia = new UserList()
     if(cpf === '' || nome === ''|| password === ''|| email === '' || whatsapp === ''){
       return notification('warning', 'Todos os campos devem estar preenchidos!')
@@ -335,8 +331,6 @@ envia(){
   }
   
     render(){
-      
-      const Option = SelectOption;
     
       
         return ( 

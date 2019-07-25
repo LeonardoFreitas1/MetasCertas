@@ -8,7 +8,6 @@ import Topbar from '../Topbar/Topbar';
 
 import AppRouter from './AppRouter'
 import { siteConfig } from '../../settings';
-import { AppLocale } from '../../dashApp';
 import AppHolder from './commonStyle';
 import './global.css';
 
@@ -18,8 +17,7 @@ const { toggleAll } = appActions;
 export class App extends Component {
   render() {
     const { url } = this.props.match;
-    const { locale, selectedTheme, height } = this.props;
-    const currentAppLocale = AppLocale[locale];
+    const { height } = this.props;
     const appHeight = window.innerHeight;
     return (
             <AppHolder>

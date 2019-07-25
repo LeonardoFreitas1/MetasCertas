@@ -1,12 +1,12 @@
 import React from 'react';  
-import { Route, Redirect } from 'react-router-dom';
+import { Route, /*Redirect*/ } from 'react-router-dom';
 import { ConnectedRouter } from 'connected-react-router';
 import { connect } from 'react-redux';
 import App from './containers/App/App';
 import asyncComponent from './helpers/AsyncFunc';
-import Auth0 from './helpers/auth0';
-import { isAutenticade } from './containers/Page/signin';
-const RestrictedRoute = ({ component: Component, ...rest }) => (
+//import { isAutenticade } from './containers/Page/signin';
+
+/*const RestrictedRoute = ({ component: Component, ...rest }) => (
   <Route
     {...rest} 
     render={props =>
@@ -22,7 +22,7 @@ const RestrictedRoute = ({ component: Component, ...rest }) => (
       )
     }
   />
-);
+);*/
 const PublicRoutes = ({ history}) => {
   return (
     <ConnectedRouter history={history}>
@@ -73,20 +73,10 @@ const PublicRoutes = ({ history}) => {
         />
 
         <Route
-          path="/auth0loginCallback"
-          render={props => {
-            Auth0.handleAuthentication(props);
-          }}
-        />
-        <Route
         path={'/metas'}
         component={asyncComponent(() => import('./components/metas/index'))}
         />
         <Route
-        path="/newCompany"
-        component={asyncComponent(() => import('./containers/Page/newCompany'))}
-        />
-        <RestrictedRoute
           path="/dashboard"
           component={App}
          

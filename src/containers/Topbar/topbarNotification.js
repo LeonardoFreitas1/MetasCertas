@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import IntlMessages from '../../components/utility/intlMessages';
 import TopbarDropdownWrapper from './topbarDropdown.style';
 import Scrollbar from '../../components/utility/customScrollBar';
-import { func } from 'prop-types';
 
 const demoNotifications = [
   {

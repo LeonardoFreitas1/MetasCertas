@@ -1,10 +1,6 @@
 import React, { Component } from 'react';
 import UserSyle from './Users.style';
-import styled from 'styled-components';
-import LayoutWrapper from '../../components/utility/layoutWrapper.js';
-import PageHeader from '../../components/utility/pageHeader';
 import { Form } from 'antd';
-import Button from '../../components/uielements/button';
 import { Input } from 'antd';
 import MaskedInput from 'react-maskedinput'
 import ValidaCPF from '../../helpers/Validacoes/ValidaCPF'
@@ -70,28 +66,15 @@ const FormItem = Form.Item;
     
     const { getFieldDecorator } = this.props.form;
 
-    const formItemLayout = {
-      labelCol: {
-        xs: { span: 24 },
-        sm: { span: 8 },
-      },
-      wrapperCol: {
-        xs: { span: 24 },
-        sm: { span: 16 },
-      },
-    };
-
     
   
   const maskStyle = {
       
   margin:  '0',
-  padding: '0',
   position: 'relative',
   display: 'inline-block',
   width: '100%',
   height: '32px',
-  padding: '4px 11px',
   color: 'rgba(0, 0, 0, 0.65)',
   fontSize: '14px',
   lineHeight: '1.5',
@@ -107,12 +90,10 @@ const FormItem = Form.Item;
 
 const style = {
   margin:  '0',
-  padding: '0',
   position: 'relative',
   display: 'inline-block',
   width: '100%',
   height: '32px',
-  padding: '4px 11px',
   color: 'rgba(0, 0, 0, 0.65)',
   fontSize: '14px',
   lineHeight: '1.5',

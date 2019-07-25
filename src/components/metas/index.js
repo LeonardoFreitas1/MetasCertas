@@ -11,18 +11,14 @@ import Input, { InputGroup } from '../../components/uielements/input';
 
 import Select, { SelectOption } from '../../components/uielements/select';
 
-import moment from 'moment';
 
-const { MonthPicker, RangePicker } = DatePicker;
+const { RangePicker } = DatePicker;
 
 const dateFormat = 'YYYY/MM/DD';
-const monthFormat = 'YYYY/MM';
 
-const dateFormatList = ['DD/MM/YYYY', 'DD/MM/YY']
 
 export default class Metas extends Component {
 
-  
     render(){
         const FormItem = Form.Item;
         const Option = SelectOption;

@@ -9,6 +9,7 @@ import notification from '../../components/notification';
 import MaskedInput from 'react-maskedinput'
 import ValidaCPF from '../../helpers/Validacoes/ValidaCPF'
 import Conversores from '../../helpers/Conversores';
+
 const jwt = require('jsonwebtoken');
 const jwtOptions = {};
 jwtOptions.secretOrKey = process.env.REACT_APP_SECRETKEY;
@@ -38,7 +39,7 @@ goCPF(event){
   }else{
     this.setState({message:'', valid:''})
   }
-  if(atualizado.length == 0){
+  if(atualizado.length === 0){
     this.setState({message: ''})
   }
 }
@@ -68,15 +69,17 @@ const requestInfo = {
     .then(resp => {
       if (resp.ok) {
         
-       return resp.text()
+       return resp.json()
     }   
-    }).then( token => {
+    }).then( info => {
+      
       const payload = { senha: senha }
       const webToken = jwt.sign(payload, jwtOptions.secretOrKey)
-      if(token == webToken){
-        localStorage.setItem('token', token) 
+      if(info.token === webToken){
+        localStorage.setItem('id', info.id)
+        localStorage.setItem('token', info.token)
       }
-      window.location.reload();
+      //window.location.reload();
       
 }).catch(err =>{
   return notification('error', 'Usuário ou senha inválidos!')
@@ -98,23 +101,23 @@ const requestInfo = {
 
   render() {
     const maskStyle = {
+      
     margin: 0,
-    padding: 0,
+
     fontVariant: 'tabular-nums',
     listStyle: 'none',
     position: 'relative',
-    display: 'inline-block',
     width: '100%',
     height: '32px',
-    padding: '4px 11px',
     color: 'rgba(0, 0, 0, 0.65)',
     backgroundColor: '#fff',
     backgroundImage: 'none',
     border: '1px solid #d9d9d9',
     borderRadius: '4px',
     padding: '18px',
-    paddingLeft: '7px'
-        }
+    paddingLeft: '7px',
+    }
+    
 
   if(localStorage.getItem('token')){
     return <Redirect to="/dashboard"></Redirect>
@@ -131,13 +134,14 @@ const requestInfo = {
               </Link>
               
             </div>
-            <spam style={{color: 'red'}}>{this.state.message}</spam>
 
             <div className="isoSignInForm">
             <form onSubmit={this.canSubmit}>
             
               <div className="isoInputWrapper">
               <MaskedInput style={maskStyle}  placeholder="CPF" id="cpf_cnpj" onChange={this.goCPF} mask="111.111.111-11"/>
+              <spam style={{color: 'red'}}>{this.state.message}</spam>
+
               </div>
 
               <div className="isoInputWrapper">
