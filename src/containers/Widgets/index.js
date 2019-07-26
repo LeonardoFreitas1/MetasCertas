@@ -7,6 +7,7 @@ import ValidarCNPJ from '../../helpers/Validacoes/ValidaCNPJ'
 import Conversores from '../../helpers/Conversores';
 import { StyleButton } from './style';
 import notification from '../../components/notification';
+import AddUserHasCompany from '../../helpers/Add/AddUserHasCompany';
 
 export default class User extends Component {
 
@@ -14,23 +15,32 @@ constructor(){
   super();
   this.state={
     addEmpresa: false,
-    message: ''
+    message: '',
+    notification: null
   };
   this.goCNPJ = this.goCNPJ.bind(this)
   this.submit = this.submit.bind(this)
 }
 
   goCNPJ(event){
+  const empresa = document.getElementById('empresa')
   const conversores = new Conversores()
   let converte = event.target.value
   converte = converte.toString()
   let atualizado = conversores.converteCNPJ(converte)
   atualizado = atualizado.toString()
   const validar = new ValidarCNPJ();
-  if(validar.validarCNPJ(atualizado) === true){
-  this.setState({message: ''})
+  
+  if(validar.validarCNPJ(atualizado) === false || empresa == null){
+    
+   this.setState({message: 'CNPJ inválido!', submit: () => {
+    this.setState({addEmpresa: false, message: ''})
+    notification('error', 'Não foi possível concluir cadastro!')
+     }
+  })
+
   }else{
-    this.setState({message:'CPF inválido!'})
+    this.setState({message:'', submit: this.submit})
   }
   if(atualizado.length === 0){
     this.setState({message: ''})
@@ -41,8 +51,10 @@ constructor(){
     fetch('http://localhost:5000/users')
     .then(user => user.json())
     .then(data => {
+      
      const id =  localStorage.getItem('id')
-      const info = data.user[id].id_empresa
+      const info = data.user[id - 1].id_empresa
+      console.log(info)
       if(info == null){
         $('#main').append(`
         <div id="box">
@@ -60,10 +72,12 @@ constructor(){
   }
 
   submit(){
-    const conversores = new Conversores()
-    let cnpj = document.getElementById('CNPJ').value
-    const Nome = document.getElementById('empresa').value
-    cnpj = conversores.converteCNPJ(cnpj)
+    const add = new AddUserHasCompany();
+    
+    const conversores = new Conversores();
+    let cnpj = document.getElementById('CNPJ').value;
+    const Nome = document.getElementById('empresa').value;
+    cnpj = conversores.converteCNPJ(cnpj);
     const requestInfo = {
       
       method: 'POST',
@@ -79,10 +93,17 @@ constructor(){
     fetch('http://localhost:5000/newCompany', requestInfo)
     .then(resp => {
       if(resp.ok){
+        return resp.json()
+      }
+    })
+    .then(info => {
+        const id_usuario = localStorage.getItem('id');
+        const id_tipo = 2;
+        add.Add(info.body, parseInt(id_usuario), id_tipo)
         this.setState({addEmpresa: false})
         notification('success', 'Empresa Cadastrada!')
-      }
-    }).catch(err => {
+    })
+    .catch(err => {
       this.setState({addEmpresa: false})
       notification('error', 'Não foi possível cadastrar empresa!')
       
@@ -96,7 +117,6 @@ constructor(){
       fontVariant: 'tabular-nums',
       listStyle: 'none',
       position: 'relative',
-      display: 'inline-block',
       width: '100%',
       height: '32px',
       color: 'rgba(0, 0, 0, 0.65)',
@@ -104,9 +124,8 @@ constructor(){
       backgroundImage: 'none',
       border: '1px solid #d9d9d9',
       borderRadius: '4px',
-      padding: '15px',
+      padding: '18px',
       paddingLeft: '7px',
-      placeholderColor: '#bfbfbf'
       }
 
       const content = (
@@ -139,7 +158,7 @@ constructor(){
             </Form>
            </ModalBody>
            <ModalFooter > 
-               <Button type='primary' onClick={this.submit}> Adicionar </Button>
+               <Button type='primary' onClick={this.state.submit}> Adicionar </Button>
                
                <Button onClick={() => this.setState({ addEmpresa: false })}> Cancelar </Button>
            </ModalFooter>

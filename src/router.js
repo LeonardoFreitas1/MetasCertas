@@ -1,12 +1,12 @@
 import React from 'react';  
-import { Route, /*Redirect*/ } from 'react-router-dom';
+import { Route, Redirect } from 'react-router-dom';
 import { ConnectedRouter } from 'connected-react-router';
 import { connect } from 'react-redux';
 import App from './containers/App/App';
 import asyncComponent from './helpers/AsyncFunc';
-//import { isAutenticade } from './containers/Page/signin';
+import { isAutenticade } from './containers/Page/signin';
 
-/*const RestrictedRoute = ({ component: Component, ...rest }) => (
+const RestrictedRoute = ({ component: Component, ...rest }) => (
   <Route
     {...rest} 
     render={props =>
@@ -22,7 +22,7 @@ import asyncComponent from './helpers/AsyncFunc';
       )
     }
   />
-);*/
+);
 const PublicRoutes = ({ history}) => {
   return (
     <ConnectedRouter history={history}>
@@ -76,7 +76,7 @@ const PublicRoutes = ({ history}) => {
         path={'/metas'}
         component={asyncComponent(() => import('./components/metas/index'))}
         />
-        <Route
+        <RestrictedRoute
           path="/dashboard"
           component={App}
          

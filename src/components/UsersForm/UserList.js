@@ -247,7 +247,7 @@ envia(){
   
   const conversores = new Conversores()
   const nome = document.getElementById('nome').value
-  const cpf = document.getElementById('cpf').value
+  let cpf = document.getElementById('cpf').value
   const password = document.getElementById('password').value
   const email = document.getElementById('email').value
   let whatsapp = document.getElementById('whatsapp').value
@@ -259,7 +259,7 @@ envia(){
   const list = document.getElementById("table")
   let marcado = null
     whatsapp = conversores.converteWhatsapp(whatsapp)
-    console.log(whatsapp)
+    cpf = conversores.converteCPF(cpf)
     if(TGadmin.checked){
       marcado = 'Admin'
 

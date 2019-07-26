@@ -9,6 +9,8 @@ import notification from '../../components/notification';
 import MaskedInput from 'react-maskedinput'
 import ValidaCPF from '../../helpers/Validacoes/ValidaCPF'
 import Conversores from '../../helpers/Conversores';
+import Verify from '../../helpers/Verificadores/Verifty';
+import { isFlowPredicate } from '@babel/types';
 
 const jwt = require('jsonwebtoken');
 const jwtOptions = {};
@@ -45,12 +47,13 @@ goCPF(event){
 }
 
 submit(){ 
-let cpf_cnpj = document.getElementById('cpf_cnpj').value
-const senha = document.getElementById('password').value
-const conv = new Conversores()
-const converteCPF = conv.converteCPF
-cpf_cnpj = converteCPF(cpf_cnpj)
-const requestInfo = {
+  const verify = new Verify();
+  const conversores = new Conversores();
+  const converteCPF = conversores.converteCPF;
+  const cpf_cnpj = converteCPF(document.getElementById('cpf_cnpj').value);
+  const senha = document.getElementById('password').value;
+
+  const requestInfo = {
       
       method: 'POST',
       body: JSON.stringify({ 
@@ -61,8 +64,6 @@ const requestInfo = {
         'Content-type':'application/json'
       })
     }
-    
-   
         
     fetch('http://localhost:5000/login', requestInfo)
     
@@ -72,13 +73,12 @@ const requestInfo = {
        return resp.json()
     }   
     }).then( info => {
+
+      localStorage.setItem('c_user', info.c_user)
+       
+        
+        verify.VerifyAdm(info.id)
       
-      const payload = { senha: senha }
-      const webToken = jwt.sign(payload, jwtOptions.secretOrKey)
-      if(info.token === webToken){
-        localStorage.setItem('id', info.id)
-        localStorage.setItem('token', info.token)
-      }
       //window.location.reload();
       
 }).catch(err =>{
@@ -88,10 +88,11 @@ const requestInfo = {
   }
 
   canSubmit(){
-    const cpf_cnpj = document.getElementById('cpf_cnpj').value
-    const password = document.getElementById('password').value
-  
-    const enter = new SignIn()
+
+    const cpf_cnpj = document.getElementById('cpf_cnpj').value;
+    const password = document.getElementById('password').value;
+    const enter = new SignIn();
+
    if(cpf_cnpj === '' || password === ''){
      return notification('warning', 'Você deve preencher todos os campos!')
    }else{
@@ -100,10 +101,10 @@ const requestInfo = {
 }
 
   render() {
+
     const maskStyle = {
       
     margin: 0,
-
     fontVariant: 'tabular-nums',
     listStyle: 'none',
     position: 'relative',
@@ -116,6 +117,7 @@ const requestInfo = {
     borderRadius: '4px',
     padding: '18px',
     paddingLeft: '7px',
+
     }
     
 
@@ -178,13 +180,39 @@ const requestInfo = {
 }
 
 export default (SignIn);
-
-export const isAutenticade = () => {
+const verify = new Verify()
+export let isAutenticade = () => {
   
-  if(localStorage.getItem('token')){
-  return true
-  }else{
-    return false
-  }
-}
+  const id_usuario = localStorage.getItem('c_user')
 
+  const requestInfo = {
+    method: 'POST',
+    body: JSON.stringify({ 
+      id_usuario: id_usuario
+     }),
+     headers: new Headers({
+      'Content-type':'application/json'
+    })
+}
+  fetch('http://localhost:5000/verifyId', requestInfo).then(info => {
+    if(info.ok){
+        return info.text()
+    }
+    })
+    .then(user => {
+      if(user == 'true'){
+        console.log('aa')
+       return true 
+        
+      }else {
+console.log('b')
+        return false
+      }
+    })
+    .catch( err => {
+    console.log(err)
+        })
+    
+    
+
+}
