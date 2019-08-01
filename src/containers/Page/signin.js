@@ -121,7 +121,7 @@ submit(){
     }
     
 
-  if(localStorage.getItem('token')){
+  if(localStorage.getItem('token') == "2"){
     return <Redirect to="/dashboard"></Redirect>
   }
     return (
@@ -182,37 +182,25 @@ submit(){
 export default (SignIn);
 const verify = new Verify()
 export let isAutenticade = () => {
-  
-  const id_usuario = localStorage.getItem('c_user')
+   // const token = localStorage.getItem(token);
+    const token = 'aaaa'
+    const requestInfo = {
 
-  const requestInfo = {
-    method: 'POST',
-    body: JSON.stringify({ 
-      id_usuario: id_usuario
-     }),
-     headers: new Headers({
-      'Content-type':'application/json'
-    })
-}
-  fetch('http://localhost:5000/verifyId', requestInfo).then(info => {
-    if(info.ok){
-        return info.text()
+      method: 'POST',
+      body: JSON.stringify({ 
+        token: token,
+       }),
+       headers: new Headers({
+        'Content-type':'application/json'
+      })
+
     }
+    fetch('http://localhost:5000/checkUser', requestInfo).then( request =>{
+      return request.text()
+  }).then(foi => {
+      console.log(foi)
+    }).catch(err => {
+      console.log(err)
     })
-    .then(user => {
-      if(user == 'true'){
-        console.log('aa')
-       return true 
-        
-      }else {
-console.log('b')
-        return false
-      }
-    })
-    .catch( err => {
-    console.log(err)
-        })
-    
-    
 
 }
