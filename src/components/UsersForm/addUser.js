@@ -20,7 +20,7 @@ const FormItem = Form.Item;
   this.goCPF = this.goCPF.bind(this)
   }
 
-  
+
   goCPF(event){
     const conversores = new Conversores()
     let converte = event.target.value

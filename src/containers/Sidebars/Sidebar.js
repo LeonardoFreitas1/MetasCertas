@@ -10,6 +10,7 @@ import IntlMessages from "../../components/utility/intlMessages";
 import SidebarWrapper from "./sidebar.style";
 import appActions from "../../redux/app/actions";
 import Logo from "../../components/utility/logo";
+import Verify from '../../helpers/Verificadores/Verifty';
 
 const SubMenu = Menu.SubMenu;
 //const MenuItemGroup = Menu.ItemGroup;
@@ -97,6 +98,7 @@ class Sidebar extends Component {
         </SubMenu>
       );
     }
+    
     return (
       <Menu.Item key={key}>
         <Link to={`${url}/${key}`}>
@@ -110,7 +112,23 @@ class Sidebar extends Component {
       </Menu.Item>
     );
   };
-  render() {
+  async componentDidMount (){
+    const verify = new Verify()
+    verify.VerifyLogaded()
+      const tipo = await verify.returnType()
+      
+      if(tipo == 'leonardo'){
+        const user = {
+          key: 'usuarios',
+         label: 'Usuarios',
+         leftIcon: 'ion-ios-person',
+        }
+        options.push(user)
+        
+    }
+  }
+   render() {
+    
     const { app, toggleOpenDrawer, customizedTheme, height } = this.props;
     const collapsed = clone(app.collapsed) && !clone(app.openDrawer);
     const { openDrawer } = app;

@@ -77,7 +77,7 @@ submit(){
       localStorage.setItem('c_user', info.c_user)
        
         
-        verify.VerifyAdm(info.id)
+        verify.VerifyAdm(info.c_user)
       
       //window.location.reload();
       
@@ -121,7 +121,7 @@ submit(){
     }
     
 
-  if(localStorage.getItem('token') == "2"){
+  if(localStorage.getItem('c_user') == "2"){
     return <Redirect to="/dashboard"></Redirect>
   }
     return (
@@ -181,26 +181,12 @@ submit(){
 
 export default (SignIn);
 const verify = new Verify()
-export let isAutenticade = () => {
-   // const token = localStorage.getItem(token);
-    const token = 'aaaa'
-    const requestInfo = {
+export let isAutenticade = async () => {
 
-      method: 'POST',
-      body: JSON.stringify({ 
-        token: token,
-       }),
-       headers: new Headers({
-        'Content-type':'application/json'
-      })
-
-    }
-    fetch('http://localhost:5000/checkUser', requestInfo).then( request =>{
-      return request.text()
-  }).then(foi => {
-      console.log(foi)
-    }).catch(err => {
-      console.log(err)
-    })
-
+  if( await verify.VerifyLogaded() == true){
+    return true
+  }else{
+    return false
+  }
+  
 }

@@ -84,7 +84,11 @@ const routes = [
   {
     path: 'Cargos',
     component: asyncComponent(() => import('../../components/Office'))
-  }
+  },
+  {
+    path: 'AdicionarEmpresas',
+    component: asyncComponent(() => import('../../containers/addCompany/index'))
+  },
 
 ];  
 

@@ -1,13 +1,5 @@
 
 const options_Root = [
- 
- 
-    {
-        key: 'usuarios',
-        label: 'Usuarios',
-        leftIcon: 'ion-ios-person',
-        
-  },
   {
     key: 'metas',
     label: 'Adicionar Metas',
@@ -28,6 +20,16 @@ const options_Root = [
     label: 'Cargos',
     leftIcon: 'ion-person-stalker'
   },
+  {
+    key: 'AdicionarEmpresas',
+    label: 'Adicionar Empresas',
+    leftIcon: 'ion-ios-plus-outline'
+  },
   
 ];
+
+
+ 
+
+
 export default options_Root;

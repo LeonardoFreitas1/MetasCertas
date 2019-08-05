@@ -5,7 +5,7 @@ import IntlMessages from '../../components/utility/intlMessages';
 import userpic from '../../image/user1.png';
 import authAction from '../../redux/auth/actions';
 import TopbarDropdownWrapper from './topbarDropdown.style';
-
+import Verify from '../../helpers/Verificadores/Verifty'
 const { logout } = authAction;
 
 class TopbarUser extends Component {
@@ -24,6 +24,13 @@ class TopbarUser extends Component {
     this.setState({ visible: !this.state.visible });
   }
 
+  async componentDidMount(){
+    const verify = new Verify()
+    verify.VerifyLogaded()
+    const tipo = await verify.returnType()
+    this.setState({type: tipo})
+  }
+ 
   render() {
     const content = (
       <TopbarDropdownWrapper className="isoUserDropdown">
@@ -35,6 +42,9 @@ class TopbarUser extends Component {
         </a>
         <a className="isoDropdownLink" href="# ">
           <IntlMessages id="topbar.help" />
+        </a>
+        <a className="isoDropdownLink">
+          <span>{this.state.type}</span>
         </a>
         <a className="isoDropdownLink" onClick={this.props.logout} href="# ">
           <IntlMessages id="topbar.logout" />
