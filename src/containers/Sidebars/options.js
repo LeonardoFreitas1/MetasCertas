@@ -25,6 +25,11 @@ const options_Root = [
     label: 'Adicionar Empresas',
     leftIcon: 'ion-ios-plus-outline'
   },
+  {
+    key: 'UsuariosEmpresas',
+    label: 'Usuários Empresas',
+    leftIcon: 'ion-ios-plus'
+  }
   
 ];
 

@@ -12,10 +12,6 @@ import Conversores from '../../helpers/Conversores';
 import Verify from '../../helpers/Verificadores/Verifty';
 import { isFlowPredicate } from '@babel/types';
 
-const jwt = require('jsonwebtoken');
-const jwtOptions = {};
-jwtOptions.secretOrKey = process.env.REACT_APP_SECRETKEY;
-
 class SignIn extends Component {
 constructor(){
 super();
@@ -154,13 +150,14 @@ submit(){
                 <Checkbox>
                   <IntlMessages id="page.signInRememberMe" />
                 </Checkbox>
-               
+
+                <Link to="/dashboard">
                 <Button  onClick={this.canSubmit}>
                 
                   <IntlMessages id="page.signInButton" />
                   
                 </Button>
-                
+                </Link>
               </div>
               
               <div className="isoCenterComponent isoHelperWrapper">
@@ -181,12 +178,13 @@ submit(){
 
 export default (SignIn);
 const verify = new Verify()
-export let isAutenticade = async () => {
+ 
 
-  if( await verify.VerifyLogaded() == true){
+export let isAutenticade = () => {
+  const user = localStorage.getItem('c_user'); 
+  if(user){
     return true
   }else{
     return false
   }
-  
 }

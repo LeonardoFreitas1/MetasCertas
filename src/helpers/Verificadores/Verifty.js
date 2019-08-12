@@ -25,7 +25,6 @@ class Verify {
     }
 
    async VerifyLogaded(){
-        let int = null
 
      const token = localStorage.getItem('c_user');
      const requestInfo = {
@@ -39,40 +38,37 @@ class Verify {
       })
 
     }
-   await fetch('http://localhost:5000/checkUser', requestInfo).then( request =>{
+   return await fetch('http://localhost:5000/checkUser', requestInfo).then( request =>{
       return request.json()
   }).then(foi => {
-      int = foi
+      return foi
     }).catch(err => {
-        console.log(err)
+        return false
     })
     
-    return int
     }
 
    async returnType(){
         const type = localStorage.getItem('t_user');
-        let int = null
         const requestInfo = {
 
             method: 'POST',
             body: JSON.stringify({ 
-              type: type,
+              type  
              }),
              headers: new Headers({
               'Content-type':'application/json'
             })
             
           }
-         await fetch('http://localhost:5000/verifyId', requestInfo).then( request =>{
+       return await fetch('http://localhost:5000/verifyId', requestInfo).then( request =>{
             return request.json()
              }).then(foi => {
-                 int = foi.tipo.id_tipo;
+                return foi.tipo.id_tipo;
             }).catch(err => {
-             console.log(err)
+             return null
              })
-            
-             return int
+
     }
  
 }

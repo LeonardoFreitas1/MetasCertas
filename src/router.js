@@ -10,7 +10,7 @@ const RestrictedRoute = ({ component: Component, ...rest }) => (
   <Route
     {...rest} 
     render={props =>
-      isAutenticade() ? (
+      isAutenticade() ?  (
         <Component {...props} />
       ) : (
         <Redirect 

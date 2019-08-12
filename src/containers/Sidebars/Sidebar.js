@@ -114,10 +114,9 @@ class Sidebar extends Component {
   };
   async componentDidMount (){
     const verify = new Verify()
-    verify.VerifyLogaded()
       const tipo = await verify.returnType()
-      
-      if(tipo == 'leonardo'){
+        
+      if(tipo == 'root'){
         const user = {
           key: 'usuarios',
          label: 'Usuarios',
@@ -126,9 +125,9 @@ class Sidebar extends Component {
         options.push(user)
         
     }
+   
   }
    render() {
-    
     const { app, toggleOpenDrawer, customizedTheme, height } = this.props;
     const collapsed = clone(app.collapsed) && !clone(app.openDrawer);
     const { openDrawer } = app;

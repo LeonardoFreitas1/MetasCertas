@@ -89,6 +89,10 @@ const routes = [
     path: 'AdicionarEmpresas',
     component: asyncComponent(() => import('../../containers/addCompany/index'))
   },
+  {
+    path: 'UsuariosEmpresas',
+    component: asyncComponent(()=> import('../../components/UserHasCompany/index'))
+  },
 
 ];  
 
