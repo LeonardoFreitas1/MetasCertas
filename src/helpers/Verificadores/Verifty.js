@@ -70,6 +70,28 @@ class Verify {
              })
 
     }
+
+    async typeUsers({ id_usuario }){
+      const requestInfo = {
+
+        method: 'POST',
+        body: JSON.stringify({ 
+          id_usuario
+         }),
+         headers: new Headers({
+          'Content-type':'application/json'
+        })
+        
+      }
+   return await fetch('http://localhost:5000/userType', requestInfo).then( request =>{
+        return request.json()
+         }).then(foi => {
+           console.log(foi)
+            return foi.tipo.id_tipo;
+        }).catch(err => {
+         return null
+         })
+    }
  
 }
 

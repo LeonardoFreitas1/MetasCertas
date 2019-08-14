@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import UserSyle from './Users.style';
-import { Form } from 'antd';
-import { Input } from 'antd';
+import { Form, Input, Select } from 'antd';
 import MaskedInput from 'react-maskedinput'
 import ValidaCPF from '../../helpers/Validacoes/ValidaCPF'
 import Conversores from '../../helpers/Conversores';
 const FormItem = Form.Item;
+const { Option } = Select
 
  class AddUser extends Component {
   constructor(props) {
@@ -15,7 +15,8 @@ const FormItem = Form.Item;
     confirmDirty: false,
     autoCompleteResult: [],
     valid: '',
-    cor: 'rgba(0, 0, 0, 0.20)'
+    cor: 'rgba(0, 0, 0, 0.20)',
+ 
   };
   this.goCPF = this.goCPF.bind(this)
   }
@@ -61,6 +62,9 @@ const FormItem = Form.Item;
     callback();
   };
 
+  getValue(value){
+    console.log(value)
+  }
   render(){
    
     
@@ -215,8 +219,6 @@ const style = {
            
              
               </div>
-             
-              
               </Form>
               
               </UserSyle>
@@ -225,8 +227,8 @@ const style = {
   }
 }
 
-const WrappedFormWIthSubmissionButton = Form.create()(AddUser)
+const UserForm = Form.create()(AddUser)
 
 export default 
 
-(WrappedFormWIthSubmissionButton);
+(UserForm);

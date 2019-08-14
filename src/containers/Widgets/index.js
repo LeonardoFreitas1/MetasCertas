@@ -47,32 +47,7 @@ constructor(){
   }
 }
 
-  componentDidMount(){
-    fetch('http://localhost:5000/users')
-    .then(user => user.json())
-    .then(data => {
-
-       const id =  localStorage.getItem('id')
-      const info = data.user[id - 1].id_empresa
-      console.log(info)
-      if(info == null){
-        $('#main').append(`
-        <div id="box">
-        <span>Adicionar Empresa:</span>
-        <button id="add" class="bttn">Adicionar Empresa</button>
-        </div>
-        
-        `)
-       let button =  document.getElementById('add')
-       button.addEventListener('click', () => this.setState({addEmpresa: true}))
-      }else{
-        $('.main').empty()
-      }
-    })
-  }
-
   submit(){
-    const add = new AddUserHasCompany();
     
     const conversores = new Conversores();
     let cnpj = document.getElementById('CNPJ').value;
@@ -97,11 +72,8 @@ constructor(){
       }
     })
     .then(info => {
-        const id_usuario = localStorage.getItem('c_user');
-        const id_tipo = localStorage.getItem('t_user');
-        add.Add(info.body, id_usuario, id_tipo)
-        this.setState({addEmpresa: false})
-        notification('success', 'Empresa Cadastrada!')
+      this.setState({ addEmpresa: false })
+      notification({ 'success': info.message })
     })
     .catch(err => {
       this.setState({addEmpresa: false})

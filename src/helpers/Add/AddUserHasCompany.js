@@ -1,6 +1,6 @@
 class AddUserHasCompany {
 
-    Add(id_empresa, id_usuario, id_tipo){
+   async Add(id_empresa, id_usuario, id_tipo){
         
         const requestInfo = {
       
@@ -15,13 +15,13 @@ class AddUserHasCompany {
             })
           }
 
-        fetch('http://localhost:5000/addUserHasCompany', requestInfo).then(resp => {
+      return await fetch('http://localhost:5000/addUserHasCompany', requestInfo).then(resp => {
             if(resp.ok){
                 return resp.json()
             }
         })
         .then(info => {
-            localStorage.setItem('id_user_company', info.id_usuario_empresa)
+            return "Usuário cadastrado na empresa!"
         })
         .catch(err => {
             console.log(err)
