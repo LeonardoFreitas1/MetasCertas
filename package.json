@@ -27,7 +27,7 @@
     "jquery-mask-plugin": "^1.14.15",
     "js-info-bubble": "git+https://github.com/RedQ/js-info-bubble.git",
     "js-rich-marker": "^1.1.2",
-    "jsonwebtoken": "^8.5.1",
+    "jsonwebtoken": "^9.0.0",
     "lodash": "^4.17.11",
     "merge": "^1.2.1",
     "moment": "^2.24.0",
